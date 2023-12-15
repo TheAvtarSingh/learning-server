@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const User = require("../../models/user-models/users");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-
+const secret_id = process.env.SECRET_ID;
+const jwt = require('jsonwebtoken');
 // signup
 router.post("/registerUser", async (req, res) => {
   // const user = new User(req.body);
@@ -39,7 +40,7 @@ router.post("/registerUser", async (req, res) => {
 
 router.post("/loginUser", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password,token } = req.body;
 
     const userData = await User.findOne({ email });
     // Password Field
@@ -47,9 +48,18 @@ router.post("/loginUser", async (req, res) => {
     if (userData) {
       const passwordExisting = userData.password;
       const isPasswordValid = await bcrypt.compare(password, passwordExisting);
+
       if (isPasswordValid) {
+
+        let newToken = token;
+
+        if (newToken === "no-token") {
+          newToken = jwt.sign({ userId: userData._id }, secret_id, { expiresIn: '1h' });
+        }
+
         res.json({
           success: true,
+          token: newToken,
           user: {
             name: userData.name,
             email: userData.email,

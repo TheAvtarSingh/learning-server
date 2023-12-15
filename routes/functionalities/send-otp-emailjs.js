@@ -6,6 +6,7 @@ const publickey = process.env.PUBLIC_KEY;
 const serviceid = process.env.SERVICE_ID;
 const templateid = process.env.TEMPLATE_ID;
 const privatekey = process.env.PRIVATE_ID;
+
 router.post("/sendEmail", async (req, res) => {
   try {
     const templateParams = req.body;
