@@ -21,13 +21,9 @@ dotenv.config();
 const port = process.env.PORT;
 
 // Database
-mongodb().then(() => {
-  app.get("/", (req, res) => res.send("Server is working !!"));
 
-  //  Main Routing
-  app.use("/api", UserRoutes);
-  app.use("/core", Functionality);
-});
+mongodb();
+
 
 // Middleware
 
@@ -43,6 +39,10 @@ app.use(express.json());
 app.use(cors(corsOptions));
 // Routes
 app.use("/api/compile", dataController);
+app.get("/", (req, res) => res.send("Server is working !!"));
 
+//  Main Routing
+app.use("/api", UserRoutes);
+app.use("/core", Functionality);
 // Server
 app.listen(port, () => console.log(`Server Started at Port : ${port} `));
