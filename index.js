@@ -14,6 +14,7 @@ const mongodb = require("./database/db");
 
 // DotEnv
 const dotenv = require("dotenv");
+const {getPODTGFG, getPODTLC} = require("./utils/Scrapper");
 dotenv.config();
 
 // Implemmentations
@@ -44,5 +45,9 @@ app.get("/", (req, res) => res.send("Server is working !!"));
 //  Main Routing
 app.use("/api", UserRoutes);
 app.use("/core", Functionality);
+
+getPODTGFG("https://www.geeksforgeeks.org/problem-of-the-day").then((data) => {console.log(data);});
+
+// getPODTLC("https://leetcode.com/problemset/").then((data) => {console.log(data);});
 // Server
 app.listen(port, () => console.log(`Server Started at Port : ${port} `));
