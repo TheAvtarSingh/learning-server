@@ -1,11 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const emailjs = require("@emailjs/nodejs");
+const { getPODTGFG } = require("../../utils/Scrapper");
 
 const publickey = process.env.PUBLIC_KEY;
 const serviceid = process.env.SERVICE_ID;
 const templateid = process.env.TEMPLATE_ID;
 const privatekey = process.env.PRIVATE_ID;
+
+router.get("/getProblemOfTheDayGfg",async(req,res)=>{
+ 
+   await getPODTGFG("https://www.geeksforgeeks.org/problem-of-the-day").then((url)=>res.json({
+      success:true,message:url
+    })).catch((error)=>{
+      res.json({
+        success: false,
+        message: error,
+      });
+    })
+ 
+})
 
 router.post("/sendEmail", async (req, res) => {
   try {

@@ -46,7 +46,7 @@ app.get("/", (req, res) => res.send("Server is working !!"));
 app.use("/api", UserRoutes);
 app.use("/core", Functionality);
 
-getPODTGFG("https://www.geeksforgeeks.org/problem-of-the-day").then((data) => {console.log(data);});
+
 
 // getPODTLC("https://leetcode.com/problemset/").then((data) => {console.log(data);});
 // Server
