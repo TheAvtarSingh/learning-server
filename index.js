@@ -14,7 +14,6 @@ const mongodb = require("./database/db");
 
 // DotEnv
 const dotenv = require("dotenv");
-const {getPODTGFG, getPODTLC} = require("./utils/Scrapper");
 dotenv.config();
 
 // Implemmentations

@@ -8,18 +8,28 @@ const serviceid = process.env.SERVICE_ID;
 const templateid = process.env.TEMPLATE_ID;
 const privatekey = process.env.PRIVATE_ID;
 
-router.get("/getProblemOfTheDayGfg",async(req,res)=>{
- 
-   await getPODTGFG("https://www.geeksforgeeks.org/problem-of-the-day").then((url)=>res.json({
-      success:true,message:url
-    })).catch((error)=>{
+router.get("/getProblemOfTheDayGfg", async (req, res) => {
+  console.log("here");
+  await getPODTGFG("https://www.geeksforgeeks.org/problem-of-the-day")
+    .then((url) =>{
+
+    
+    
+      res.json({
+        success: true,
+        message: url,
+      })
+      console.log(url);
+      }
+    )
+    .catch((error) => {
+      console.log(error);
       res.json({
         success: false,
         message: error,
       });
-    })
- 
-})
+    });
+});
 
 router.post("/sendEmail", async (req, res) => {
   try {
