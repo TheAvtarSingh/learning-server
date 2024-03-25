@@ -114,7 +114,7 @@ router.post("/loginUser", async (req, res) => {
             name: userData.name,
             email: userData.email,
             phoneNumber: userData.phoneNumber,
-            learnings: userData.learnings,
+            coursesEnrolled: userData.coursesEnrolled,
           },
         });
       } else {
