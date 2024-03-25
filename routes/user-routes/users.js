@@ -134,24 +134,75 @@ router.post("/loginUser", async (req, res) => {
 // Update User
 router.post("/updateUser", async (req, res) => {
   try {
-    const { email, newLearningEnrollment } = req.body;
-    if (!email || !newLearningEnrollment) {
-      res.json({
+    const { email, courseHeading } = req.body;
+    if (!email || !courseHeading) {
+      return res.json({
         success: false,
-        error: "Email and LearningEnrollments are Required !",
+        error: "Email and Course Heading are required!",
       });
     }
+
     const savedUser = await User.findOne({ email });
 
     if (savedUser) {
-      if (savedUser.learnings.includes(newLearningEnrollment)) {
+      console.log("Before save:", savedUser);
+      const courseIndex = savedUser.learnings.findIndex(
+        (course) => course.heading === courseHeading
+      );
+
+      if (courseIndex !== -1) {
+        if (savedUser.learnings[courseIndex].isEnrolled) {
+          return res.json({
+            success: false,
+            message: "Course is already enrolled for this user!",
+          });
+        }
+        savedUser.learnings[courseIndex].isEnrolled = true;
+        // Add this log
+
+        await savedUser.save().then((data)=>console.log(data));
+
+      
+        return res.json({
+          success: true,
+          message: "Course enrollment updated successfully!",
+        });
+      } else {
         return res.json({
           success: false,
-          message: "Learning Enrollment already exists for this user!",
+          message: "Course not found in user's learnings!",
         });
       }
-      savedUser.learnings.push(newLearningEnrollment);
+    } else {
+      return res.json({ success: false, message: "User not found!" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.json({ success: false, error: "Internal Server Error" });
+  }
+});
+router.post("/updateCoursesEnrolled", async (req, res) => {
+  try {
+    const { email, courseHeading } = req.body;
+    if (!email || !courseHeading) {
+      return res.json({
+        success: false,
+        error: "Email and Course Heading are required!",
+      });
+    }
 
+    const savedUser = await User.findOne({ email });
+
+    if (savedUser) {
+      // Check if newLearningEnrollment already exists in the learnings array
+      if (savedUser.coursesEnrolled.includes(courseHeading)) {
+        return res.json({ success: false, message: "Learning Enrollment already exists for this user!" });
+      }
+      
+      // Push the new learning enrollment to the existing learnings array
+      savedUser.coursesEnrolled.push(courseHeading);
+      
+      // Save the updated user
       await savedUser.save();
 
       res.json({ success: true, message: "User Updated Successfully !" });
@@ -163,5 +214,6 @@ router.post("/updateUser", async (req, res) => {
     res.json({ success: false, error: "Internal Server Error" });
   }
 });
+
 
 module.exports = router;
