@@ -4,7 +4,7 @@ const User = require("../../models/user-models/users");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const secret_id = process.env.SECRET_ID;
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 // signup
 router.post("/registerUser", async (req, res) => {
   // const user = new User(req.body);
@@ -40,7 +40,7 @@ router.post("/registerUser", async (req, res) => {
 
 router.post("/loginUser", async (req, res) => {
   try {
-    const { email, password,token } = req.body;
+    const { email, password, token } = req.body;
 
     const userData = await User.findOne({ email });
     // Password Field
@@ -50,11 +50,12 @@ router.post("/loginUser", async (req, res) => {
       const isPasswordValid = await bcrypt.compare(password, passwordExisting);
 
       if (isPasswordValid) {
-
         let newToken = token;
 
         if (newToken === "no-token") {
-          newToken = jwt.sign({ userId: userData._id }, secret_id, { expiresIn: '1h' });
+          newToken = jwt.sign({ userId: userData._id }, secret_id, {
+            expiresIn: "1h",
+          });
         }
 
         res.json({
@@ -73,6 +74,33 @@ router.post("/loginUser", async (req, res) => {
     } else {
       // Email not exists
       res.json({ success: false, error: "User not found ! Please Register" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.json({ success: false, error: "Internal Server Error" });
+  }
+});
+
+// Update User
+router.post("/updateUser", async (req, res) => {
+  try {
+    const { email, newLearningEnrollment } = req.body;
+    if (!email || !newLearningEnrollment) {
+      res.json({ success: false, error: "Email and LearningEnrollments are Required !" });
+    }
+    const savedUser = await User.findOne({ email });
+
+    if (savedUser) {
+      if (savedUser.learnings.includes(newLearningEnrollment)) {
+        return res.json({ success: false, message: "Learning Enrollment already exists for this user!" });
+      }
+      savedUser.learnings.push(newLearningEnrollment);
+      
+      await savedUser.save();
+
+      res.json({ success: true, message: "User Updated Successfully !" });
+    } else {
+      res.json({ success: false, message: "User Not Found !" });
     }
   } catch (error) {
     console.error(error);
