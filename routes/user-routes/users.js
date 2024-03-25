@@ -71,7 +71,7 @@ router.post("/registerUser", async (req, res) => {
 
 router.get("/findUserInfo", async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email } = req.query;
     if(!email) return res.json({ success: false, message: "Email is Required !" });
     const userData = await User.findOne({ email });
     if (userData) {
