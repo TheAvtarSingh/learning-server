@@ -8,29 +8,31 @@ const jwt = require("jsonwebtoken");
 const availableCourses = [
   {
     _id: 1,
-    imageLink : "./images/dashboard/java_course_1.jpg" ,
+    imageLink: "./images/dashboard/java_course_1.jpg",
     heading: "Learn Java Basics",
     description: "Premium content to Learn Java Basics",
     linktoredirect: "/learn-oops-in-java",
-    isCompleted : false,
-    isEnrolled : false
+    isCompleted: false,
+    isEnrolled: false,
   },
   {
     _id: 2,
-    imageLink : "./images/dashboard/java_course_2.jpg" ,
+    imageLink: "./images/dashboard/java_course_2.jpg",
     heading: "Learn Inheritance",
-    description: "Premium content to Java Access Modifiers (Inheritance Basics)",
+    description:
+      "Premium content to Java Access Modifiers (Inheritance Basics)",
     linktoredirect: "/learn-oops-in-java",
-    isCompleted : false,
-    isEnrolled : false
-  },{
+    isCompleted: false,
+    isEnrolled: false,
+  },
+  {
     _id: 3,
-    imageLink : "./images/dashboard/java_course_3.jpg" ,
+    imageLink: "./images/dashboard/java_course_3.jpg",
     heading: "Learn Inheritance",
     description: "Premium content to learn Inheritance",
     linktoredirect: "/learn-oops-in-java",
-    isCompleted : false,
-    isEnrolled : false
+    isCompleted: false,
+    isEnrolled: false,
   },
 ];
 
@@ -51,7 +53,7 @@ router.post("/registerUser", async (req, res) => {
         phoneNumber: req.body.phoneNumber,
         age: req.body.age,
         password: secPassword,
-        learnings: availableCourses // Assign course headings as array of strings
+        learnings: availableCourses, // Assign course headings as array of strings
       });
       let encryptedId = await bcrypt.hash(addedData._id.toString(), salt);
       res.json({ success: true, _id: encryptedId });
@@ -64,6 +66,21 @@ router.post("/registerUser", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.json({ success: false });
+  }
+});
+
+router.get("/findUserInfo", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const userData = await User.findOne({ email });
+    if (userData) {
+      res.json({ success: true, user: userData });
+    } else {
+      res.json({ success: false, message: "User not found !" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, error: "Internal Server Error" });
   }
 });
 
@@ -96,7 +113,7 @@ router.post("/loginUser", async (req, res) => {
             name: userData.name,
             email: userData.email,
             phoneNumber: userData.phoneNumber,
-            learnings : userData.learnings
+            learnings: userData.learnings,
           },
         });
       } else {
@@ -118,16 +135,22 @@ router.post("/updateUser", async (req, res) => {
   try {
     const { email, newLearningEnrollment } = req.body;
     if (!email || !newLearningEnrollment) {
-      res.json({ success: false, error: "Email and LearningEnrollments are Required !" });
+      res.json({
+        success: false,
+        error: "Email and LearningEnrollments are Required !",
+      });
     }
     const savedUser = await User.findOne({ email });
 
     if (savedUser) {
       if (savedUser.learnings.includes(newLearningEnrollment)) {
-        return res.json({ success: false, message: "Learning Enrollment already exists for this user!" });
+        return res.json({
+          success: false,
+          message: "Learning Enrollment already exists for this user!",
+        });
       }
       savedUser.learnings.push(newLearningEnrollment);
-      
+
       await savedUser.save();
 
       res.json({ success: true, message: "User Updated Successfully !" });
