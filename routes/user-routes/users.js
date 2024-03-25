@@ -5,6 +5,35 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const secret_id = process.env.SECRET_ID;
 const jwt = require("jsonwebtoken");
+const availableCourses = [
+  {
+    _id: 1,
+    imageLink : "./images/dashboard/java_course_1.jpg" ,
+    heading: "Learn Java Basics",
+    description: "Premium content to Learn Java Basics",
+    linktoredirect: "/learn-oops-in-java",
+    isCompleted : false,
+    isEnrolled : false
+  },
+  {
+    _id: 2,
+    imageLink : "./images/dashboard/java_course_2.jpg" ,
+    heading: "Learn Inheritance",
+    description: "Premium content to Java Access Modifiers (Inheritance Basics)",
+    linktoredirect: "/learn-oops-in-java",
+    isCompleted : false,
+    isEnrolled : false
+  },{
+    _id: 3,
+    imageLink : "./images/dashboard/java_course_3.jpg" ,
+    heading: "Learn Inheritance",
+    description: "Premium content to learn Inheritance",
+    linktoredirect: "/learn-oops-in-java",
+    isCompleted : false,
+    isEnrolled : false
+  },
+];
+
 // signup
 router.post("/registerUser", async (req, res) => {
   // const user = new User(req.body);
@@ -15,12 +44,14 @@ router.post("/registerUser", async (req, res) => {
   try {
     let userData = await User.findOne({ email });
     if (!userData) {
+      // let courseHeadings = availableCourses.map(course => course.heading);
       let addedData = await User.create({
         name: req.body.name,
         email: req.body.email,
         phoneNumber: req.body.phoneNumber,
         age: req.body.age,
         password: secPassword,
+        learnings: availableCourses // Assign course headings as array of strings
       });
       let encryptedId = await bcrypt.hash(addedData._id.toString(), salt);
       res.json({ success: true, _id: encryptedId });
@@ -65,6 +96,7 @@ router.post("/loginUser", async (req, res) => {
             name: userData.name,
             email: userData.email,
             phoneNumber: userData.phoneNumber,
+            learnings : userData.learnings
           },
         });
       } else {
