@@ -8,6 +8,7 @@ const cors = require("cors");
 // Files Modules
 const dataController = require("./controller/dataController");
 const UserRoutes = require("./routes/user-routes/users");
+const AdminRoutes = require("./routes/user-routes/admins");
 const Functionality = require("./routes/functionalities/send-otp-emailjs");
 // Database Modules
 const mongodb = require("./database/db");
@@ -43,6 +44,7 @@ app.get("/", (req, res) => res.send("Server is working !!"));
 
 //  Main Routing
 app.use("/api", UserRoutes);
+app.use("/api", AdminRoutes);
 app.use("/core", Functionality);
 
 
