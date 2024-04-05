@@ -69,6 +69,16 @@ router.post("/registerUser", async (req, res) => {
   }
 });
 
+router.get("/getAllUsers",async (req,res)=>{
+  try{
+    const users = await User.find();
+    res.json({success:true,users});
+  }catch(error){
+    console.log(error);
+    res.json({success:false,error:"Internal Server Error"});
+  }
+})
+
 router.get("/findUserInfo", async (req, res) => {
   try {
     const { email } = req.query;
