@@ -9,7 +9,9 @@ const cors = require("cors");
 const dataController = require("./controller/dataController");
 const UserRoutes = require("./routes/user-routes/users");
 const AdminRoutes = require("./routes/user-routes/admins");
+const DoubtSolverRoutes = require("./routes/user-routes/doubtSolver");
 const Functionality = require("./routes/functionalities/send-otp-emailjs");
+const DoubtRoutes = require("./routes/user-routes/doubts");
 // Database Modules
 const mongodb = require("./database/db");
 
@@ -45,6 +47,8 @@ app.get("/", (req, res) => res.send("Server is working !!"));
 //  Main Routing
 app.use("/api", UserRoutes);
 app.use("/api", AdminRoutes);
+app.use("/api", DoubtSolverRoutes);
+app.use("/api", DoubtRoutes);
 app.use("/core", Functionality);
 
 

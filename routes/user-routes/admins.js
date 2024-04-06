@@ -73,8 +73,8 @@ if (!email || !password || !phoneNumber || !age || !name) {
         });
       }
     } catch (error) {
-      console.log(error);
-      res.json({ success: false });
+      
+      res.json({ success: false,error:"Internal Server Error"});
     }
   });
 
