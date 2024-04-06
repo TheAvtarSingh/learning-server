@@ -53,7 +53,7 @@ router.post("/registerUser", async (req, res) => {
         phoneNumber: req.body.phoneNumber,
         age: req.body.age,
         password: secPassword,
-        learnings: availableCourses, // Assign course headings as array of strings
+       
       });
       let encryptedId = await bcrypt.hash(addedData._id.toString(), salt);
       res.json({ success: true, _id: encryptedId });

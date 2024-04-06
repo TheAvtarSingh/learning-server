@@ -20,10 +20,9 @@ const userSchema = new mongoose.Schema({
       },
       coursesEnrolled:{
 type: [String],
+default: [],
       },
-      learnings: {
-        type: [Object], 
-      },
+      
       password: {
         type: String,
         required: true,
