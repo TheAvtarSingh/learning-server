@@ -144,4 +144,14 @@ router.get("/getAllUnsolvedDoubts", async (req, res) => {
   }
 });
 
+router.get("/getAllDoubts",async (req,res)=>{
+  try{
+    const users = await Doubt.find();
+    res.json({success:true,users});
+  }catch(error){
+    console.log(error);
+    res.json({success:false,error:"Internal Server Error"});
+  }
+})
+
 module.exports = router;
