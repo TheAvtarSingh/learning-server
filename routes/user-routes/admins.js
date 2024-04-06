@@ -78,4 +78,20 @@ if (!email || !password || !phoneNumber || !age || !name) {
     }
   });
 
+  router.get("/findAdminInfo", async (req, res) => {
+    try {
+      const { email } = req.query;
+      if(!email) return res.json({ success: false, message: "Email is Required !" });
+      const userData = await Admin.findOne({ email });
+      if (userData) {
+        res.json({ success: true, user: userData });
+      } else {
+        res.json({ success: false, message: "User not found !" });
+      }
+    } catch (error) {
+      console.log(error);
+      res.json({ success: false, error: "Internal Server Error" });
+    }
+  });
+
   module.exports = router;
