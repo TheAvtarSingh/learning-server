@@ -110,4 +110,30 @@ router.put("/updateDoubtSolved", async (req, res) => {
     }
     });
 
+
+    router.get("/findDoubtSolverInfo", async (req, res) => {
+      try {
+        const { email } = req.query;
+        if(!email) return res.json({ success: false, message: "Email is Required !" });
+        const userData = await DoubtSolver.findOne({ email });
+        if (userData) {
+          res.json({ success: true, user: userData });
+        } else {
+          res.json({ success: false, message: "User not found !" });
+        }
+      } catch (error) {
+        console.log(error);
+        res.json({ success: false, error: "Internal Server Error" });
+      }
+    });
+
+    router.get("/getAllDoubtSolver",async (req,res)=>{
+      try{
+        const users = await DoubtSolver.find();
+        res.json({success:true,users});
+      }catch(error){
+        console.log(error);
+        res.json({success:false,error:"Internal Server Error"});
+      }
+    })
 module.exports = router;
