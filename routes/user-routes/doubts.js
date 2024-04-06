@@ -134,14 +134,14 @@ router.put("/updateDoubtSolution", async (req, res) => {
   }
 });
 
-router.get("/getAllDoubts",async (req,res)=>{
-  try{
-    const doubts = await Doubt.find();
-    res.json({success:true,doubts});
-  }catch(error){
+router.get("/getAllUnsolvedDoubts", async (req, res) => {
+  try {
+    const unsolvedDoubts = await Doubt.find({ isSolved: false });
+    res.json({ success: true, unsolvedDoubts });
+  } catch (error) {
     console.log(error);
-    res.json({success:false,error:"Internal Server Error"});
+    res.json({ success: false, error: "Internal Server Error" });
   }
-})
+});
 
 module.exports = router;
