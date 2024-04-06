@@ -38,20 +38,23 @@ const availableCourses = [
 
 // signup
 router.post("/registerUser", async (req, res) => {
-  // const user = new User(req.body);
-  let email = req.body.email;
+  const { email, password, phoneNumber, age, name } = req.body;
+  if (!email || !password || !phoneNumber || !age || !name) {
+    return res.json({ success: false, error: "Please fill all the fields" });
+  }
+ 
   const salt = await bcrypt.genSalt(10);
-  let secPassword = await bcrypt.hash(req.body.password, salt);
+  let secPassword = await bcrypt.hash(password, salt);
 
   try {
     let userData = await User.findOne({ email });
     if (!userData) {
       // let courseHeadings = availableCourses.map(course => course.heading);
       let addedData = await User.create({
-        name: req.body.name,
-        email: req.body.email,
-        phoneNumber: req.body.phoneNumber,
-        age: req.body.age,
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber,
+        age: age,
         password: secPassword,
        
       });
