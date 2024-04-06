@@ -101,7 +101,7 @@ router.get("/findDoubtsByKeyword", async (req, res) => {
   }
 });
 
-router.post("/updateDoubtSolution", async (req, res) => {
+router.put("/updateDoubtSolution", async (req, res) => {
   const { doubtId, solution } = req.body;
   if (!doubtId || !solution) {
     return res.json({ success: false, error: "Please fill all the fields" });

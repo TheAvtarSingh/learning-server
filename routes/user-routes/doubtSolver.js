@@ -77,7 +77,7 @@ router.post("/loginDoubtSolver", async (req, res) => {
 });
 
 // Add number of doubts solved and doubts solved by doubt solver
-router.post("/addDoubtSolved", async (req, res) => {
+router.put("/updateDoubtSolved", async (req, res) => {
   try {
     const { email, doubtId } = req.body;
     if (!email || !doubtId) {

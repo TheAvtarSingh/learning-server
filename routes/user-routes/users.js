@@ -194,7 +194,7 @@ router.post("/updateUser", async (req, res) => {
     res.json({ success: false, error: "Internal Server Error" });
   }
 });
-router.post("/updateCoursesEnrolled", async (req, res) => {
+router.put("/updateCoursesEnrolled", async (req, res) => {
   try {
     const { email, courseHeading } = req.body;
     if (!email || !courseHeading) {
