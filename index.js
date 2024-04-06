@@ -42,7 +42,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 // Routes
 app.use("/api/compile", dataController);
-app.get("/", (req, res) => res.send("Server is working !!"));
+app.get("/", (req, res) => res.json({success:true,message:"Server is Working Fine !!"}) );
 
 //  Main Routing
 app.use("/api", UserRoutes);
