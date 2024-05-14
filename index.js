@@ -51,7 +51,9 @@ app.use("/api", DoubtSolverRoutes);
 app.use("/api", DoubtRoutes);
 app.use("/core", Functionality);
 
-
+// Payment
+app.use("/payments", require("./routes/payment-routes/payment"));
+app.use("/keys",require("./routes/payment-routes/keys"));
 
 // getPODTLC("https://leetcode.com/problemset/").then((data) => {console.log(data);});
 // Server
