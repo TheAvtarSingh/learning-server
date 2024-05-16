@@ -5,7 +5,10 @@ const router = express.Router();
 const crypto = require("crypto");
 const payment = require("../../models/payments-models/payment");
 
+let tempUser;
+
 router.post("/checkout", async (req, res) => {
+tempUser = req.body.userData;
   try {
     const instance = new Razorpay({
       key_secret: process.env.RAZORPAY_SECRET,
@@ -31,7 +34,7 @@ router.post("/paymentVerification", async (req, res) => {
     razorpay_order_id,
     razorpay_payment_id,
     razorpay_signature,
-    userData,
+   
   } = req.body;
 
   const body = razorpay_order_id + "|" + razorpay_payment_id;
@@ -47,8 +50,8 @@ router.post("/paymentVerification", async (req, res) => {
     // Database comes here
 
     await payment.create({
-      userEmail: userData.email,
-      phoneNumber: userData.phoneNumber,
+      userEmail: tempUser.email,
+      phoneNumber: tempUser.phoneNumber,
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
