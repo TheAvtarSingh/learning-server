@@ -38,8 +38,8 @@ const availableCourses = [
 
 // signup
 router.post("/registerUser", async (req, res) => {
-  const { email, password, phoneNumber, age, name } = req.body;
-  if (!email || !password || !phoneNumber || !age || !name) {
+  const { email, password, phoneNumber, age, name ,paymentsMade} = req.body;
+  if (!email || !password || !phoneNumber || !age || !name || !paymentsMade) {
     return res.json({ success: false, error: "Please fill all the fields" });
   }
  
@@ -56,6 +56,7 @@ router.post("/registerUser", async (req, res) => {
         phoneNumber: phoneNumber,
         age: age,
         password: secPassword,
+        paymentsMade:paymentsMade,
        successCredits:30
       });
       let encryptedId = await bcrypt.hash(addedData._id.toString(), salt);
@@ -94,6 +95,25 @@ router.get("/findUserInfo", async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.json({ success: false, error: "Internal Server Error" });
+  }
+});
+
+router.get("/findUserPayments", async (req, res) => {
+  try {
+    const { email } = req.query;
+    if (!email) {
+      return res.json({ success: false, message: "Email is required!" });
+    }
+
+    const userData = await User.findOne({ email });
+    if (userData) {
+      res.json({ success: true, paymentsMade: userData.paymentsMade });
+    } else {
+      res.json({ success: false, message: "User not found!" });
+    }
+  } catch (error) {
+    console.error(error);
     res.json({ success: false, error: "Internal Server Error" });
   }
 });
@@ -244,6 +264,31 @@ router.put("/updateSuccessCredits", async (req, res) => {
       await savedUser.save();
 
       res.json({ success: true, message: "Success credits updated successfully!" });
+    } else {
+      res.json({ success: false, message: "User not found!" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.json({ success: false, error: "Internal Server Error" });
+  }
+});
+router.put("/updatePaymentsMade", async (req, res) => {
+  try {
+    const { email, payment } = req.body;
+    if (!email || payment === undefined) {
+      return res.json({
+        success: false,
+        error: "Email and payment are required!",
+      });
+    }
+
+    const savedUser = await User.findOne({ email });
+
+    if (savedUser) {
+      savedUser.paymentsMade.push(payment); 
+      await savedUser.save();
+
+      res.json({ success: true, message: "Payment Details updated successfully!" });
     } else {
       res.json({ success: false, message: "User not found!" });
     }
