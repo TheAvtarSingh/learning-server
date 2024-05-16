@@ -10,9 +10,9 @@ let tempAmount;
 let tempSuccessCredits;
 
 router.post("/checkout", async (req, res) => {
-tempUser = req.body.userData;
-tempAmount = req.body.amount;
-tempSuccessCredits = req.body.successCredits;
+  tempUser = req.body.userData;
+  tempAmount = req.body.amount;
+  tempSuccessCredits = req.body.successCredits;
   try {
     const instance = new Razorpay({
       key_secret: process.env.RAZORPAY_SECRET,
@@ -34,12 +34,8 @@ tempSuccessCredits = req.body.successCredits;
   }
 });
 router.post("/paymentVerification", async (req, res) => {
-  const {
-    razorpay_order_id,
-    razorpay_payment_id,
-    razorpay_signature,
-   
-  } = req.body;
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+    req.body;
 
   const body = razorpay_order_id + "|" + razorpay_payment_id;
 
@@ -56,8 +52,7 @@ router.post("/paymentVerification", async (req, res) => {
     await payment.create({
       userEmail: tempUser.email,
       phoneNumber: tempUser.phoneNumber,
-      amount
-      : tempAmount,
+      amount: tempAmount,
       successCredits: tempSuccessCredits,
       razorpay_order_id,
       razorpay_payment_id,
@@ -65,7 +60,7 @@ router.post("/paymentVerification", async (req, res) => {
     });
 
     res.redirect(
-      `http://localhost:3000/payment-success?reference=${razorpay_payment_id}`
+      `http://localhost:3000/payment-success?reference=${razorpay_payment_id}&amount=${tempAmount}&successCredits=${tempSuccessCredits}`
     );
   } else {
     res.status(400).json({
