@@ -7,6 +7,12 @@ const Payment = mongoose.Schema({
     phoneNumber: {
         type: Number
     },
+    amount: {
+        type: Number
+    },
+    successCredits: {
+        type: Number
+    },
     razorpay_order_id: {
         type: String,
         required: true,

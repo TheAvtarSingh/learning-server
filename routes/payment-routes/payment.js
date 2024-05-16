@@ -6,9 +6,13 @@ const crypto = require("crypto");
 const payment = require("../../models/payments-models/payment");
 
 let tempUser;
+let tempAmount;
+let tempSuccessCredits;
 
 router.post("/checkout", async (req, res) => {
 tempUser = req.body.userData;
+tempAmount = req.body.amount;
+tempSuccessCredits = req.body.successCredits;
   try {
     const instance = new Razorpay({
       key_secret: process.env.RAZORPAY_SECRET,
@@ -52,6 +56,9 @@ router.post("/paymentVerification", async (req, res) => {
     await payment.create({
       userEmail: tempUser.email,
       phoneNumber: tempUser.phoneNumber,
+      amount
+      : tempAmount,
+      successCredits: tempSuccessCredits,
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
