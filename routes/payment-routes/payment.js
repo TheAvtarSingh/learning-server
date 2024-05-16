@@ -27,7 +27,7 @@ router.post("/checkout", async (req, res) => {
     }
 });
 router.post("/paymentVerification", async (req, res) => {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature,userEmail,phoneNumber,frontendUrl } =
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature,name,email,frontendUrl } =
     req.body;
 
   const body = razorpay_order_id + "|" + razorpay_payment_id;
@@ -43,8 +43,8 @@ router.post("/paymentVerification", async (req, res) => {
     // Database comes here
 
     await payment.create({
-        userEmail,
-        phoneNumber ,
+        name,
+        email ,
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
