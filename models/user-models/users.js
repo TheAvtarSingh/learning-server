@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
 type: [String],
 default: [],
       },
+      successCredits:{
+        type: Number,
+        default: 0,
+              },
       
       password: {
         type: String,

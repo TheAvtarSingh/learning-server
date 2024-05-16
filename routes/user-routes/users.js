@@ -56,7 +56,7 @@ router.post("/registerUser", async (req, res) => {
         phoneNumber: phoneNumber,
         age: age,
         password: secPassword,
-       
+       successCredits:30
       });
       let encryptedId = await bcrypt.hash(addedData._id.toString(), salt);
       res.json({ success: true, _id: encryptedId });
@@ -221,6 +221,31 @@ router.put("/updateCoursesEnrolled", async (req, res) => {
       res.json({ success: true, message: "User Updated Successfully !" });
     } else {
       res.json({ success: false, message: "User Not Found !" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.json({ success: false, error: "Internal Server Error" });
+  }
+});
+router.put("/updateSuccessCredits", async (req, res) => {
+  try {
+    const { email, successCredits } = req.body;
+    if (!email || successCredits === undefined) {
+      return res.json({
+        success: false,
+        error: "Email and successCredits are required!",
+      });
+    }
+
+    const savedUser = await User.findOne({ email });
+
+    if (savedUser) {
+      savedUser.successCredits = successCredits;
+      await savedUser.save();
+
+      res.json({ success: true, message: "Success credits updated successfully!" });
+    } else {
+      res.json({ success: false, message: "User not found!" });
     }
   } catch (error) {
     console.error(error);
