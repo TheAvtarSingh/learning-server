@@ -27,7 +27,7 @@ router.post("/checkout", async (req, res) => {
     }
 });
 router.post("/paymentVerification", async (req, res) => {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature,name,email,frontendUrl } =
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature,name,email } =
     req.body;
 
   const body = razorpay_order_id + "|" + razorpay_payment_id;
@@ -50,7 +50,7 @@ router.post("/paymentVerification", async (req, res) => {
       razorpay_signature,
     });
     
-    res.redirect(`${frontendUrl}/paymentsuccess?reference=${razorpay_payment_id}`);
+    res.redirect(`${process.env.FRONT_END_URL}/paymentsuccess?reference=${razorpay_payment_id}`);
   } else {
     res.status(400).json({
         error:"Payment Failed",
