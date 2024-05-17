@@ -33,6 +33,15 @@ router.post("/checkout", async (req, res) => {
     res.status(500).send(error);
   }
 });
+router.get("/allPayments", async (req, res) => {
+  try {
+    const allPayments = await payment.find();
+    res.json({success:true,allPayments});
+  } catch (error) {
+    res.json({success:false,error:"Internal Server Error"});
+}});
+
+
 router.post("/paymentVerification", async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
     req.body;
