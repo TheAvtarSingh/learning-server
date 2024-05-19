@@ -12,6 +12,9 @@ const AdminRoutes = require("./routes/user-routes/admins");
 const DoubtSolverRoutes = require("./routes/user-routes/doubtSolver");
 const Functionality = require("./routes/functionalities/send-otp-emailjs");
 const DoubtRoutes = require("./routes/user-routes/doubts");
+const ConversationRoutes = require("./routes/conversation-routes/conversations");
+const MessagesRoutes = require("./routes/conversation-routes/messages");
+
 // Database Modules
 const mongodb = require("./database/db");
 
@@ -49,6 +52,8 @@ app.use("/api", UserRoutes);
 app.use("/api", AdminRoutes);
 app.use("/api", DoubtSolverRoutes);
 app.use("/api", DoubtRoutes);
+app.use("/api", ConversationRoutes);
+app.use("/api", MessagesRoutes);
 app.use("/core", Functionality);
 
 // Payment
