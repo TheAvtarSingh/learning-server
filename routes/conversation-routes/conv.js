@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 
-const Conversation = require("../../models/conversation-models/ConversationSchema");
+const Conversation = require("../../models/conversation-models/chatSchema");
 
 router.post("/conversations", async (req, res) => {
   const { user, doubtSolver } = req.body;

@@ -12,8 +12,8 @@ const AdminRoutes = require("./routes/user-routes/admins");
 const DoubtSolverRoutes = require("./routes/user-routes/doubtSolver");
 const Functionality = require("./routes/functionalities/send-otp-emailjs");
 const DoubtRoutes = require("./routes/user-routes/doubts");
-const ConversationRoutes = require("./routes/conversation-routes/conversations");
-const MessagesRoutes = require("./routes/conversation-routes/messages");
+const ConversationRoutes = require("./routes/conversation-routes/conv");
+const MessagesRoutes = require("./routes/conversation-routes/msg");
 
 // Database Modules
 const mongodb = require("./database/db");

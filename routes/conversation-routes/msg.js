@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
-const Message = require("../../models/conversation-models/messageSchema");
+const Message = require("../../models/conversation-models/msgSchema");
 
 router.post("/messages", async (req, res) => {
     const { conversationId, senderId,receiverId, message } = req.body;
