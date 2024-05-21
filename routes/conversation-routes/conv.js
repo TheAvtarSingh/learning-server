@@ -24,5 +24,18 @@ router.post("/conversations", async (req, res) => {
   }
 });
 
+router.get("/conversations/:doubtSolver", async (req, res) => {
+  const { doubtSolver } = req.params;
+  if (!doubtSolver) {
+    return res.status(400).json({ success: false, error: "Please fill all the fields i.e doubtSolver" });
+  }
+  try {
+    let conversations = await Conversation.find({ doubtSolver });
+    res.json({ success: true, conversations });
+  } catch (error) {
+    res.json({ success: false, error: "Internal Server Error" });
+  }
+});
+
 
 module.exports  = router;
