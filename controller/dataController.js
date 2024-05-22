@@ -53,28 +53,6 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.post('/run', async (req, res) => {
 
-    const code = req.body.code;
-   const fileName = 'Main.java';
-   fs.writeFileSync(fileName, code);
-   
-
-   exec(`javac ${fileName}`, (error, stdout, stderr) => {
-    if (error) {
-      res.json({ output: stderr });
-      return;
-    }
-
-    // Execute the compiled Java class
-    exec('java Main', (error, stdout, stderr) => {
-      if (error) {
-        res.json({ output: stderr });
-        return;
-      }
-      res.json({ output: stdout });
-    });
-  });
-})
 
 module.exports = router
