@@ -15,6 +15,7 @@ const DoubtRoutes = require("./routes/user-routes/doubts");
 const ConversationRoutes = require("./routes/conversation-routes/conv");
 const MessagesRoutes = require("./routes/conversation-routes/msg");
 const CompilerRoutes = require("./routes/compiler-routes/compiler");
+const UploadRoutes = require("./routes/video-rotes/videos");
 // Database Modules
 const mongodb = require("./database/db");
 
@@ -56,6 +57,7 @@ app.use("/api", ConversationRoutes);
 app.use("/api", MessagesRoutes);
 app.use("/core", Functionality);
 app.use("/core", CompilerRoutes);
+app.use("/core",UploadRoutes );
 
 // Payment
 app.use("/payments", require("./routes/payment-routes/payment"));
