@@ -14,7 +14,7 @@ const Functionality = require("./routes/functionalities/send-otp-emailjs");
 const DoubtRoutes = require("./routes/user-routes/doubts");
 const ConversationRoutes = require("./routes/conversation-routes/conv");
 const MessagesRoutes = require("./routes/conversation-routes/msg");
-
+const CompilerRoutes = require("./routes/compiler-routes/compiler");
 // Database Modules
 const mongodb = require("./database/db");
 
@@ -55,6 +55,7 @@ app.use("/api", DoubtRoutes);
 app.use("/api", ConversationRoutes);
 app.use("/api", MessagesRoutes);
 app.use("/core", Functionality);
+app.use("/core", CompilerRoutes);
 
 // Payment
 app.use("/payments", require("./routes/payment-routes/payment"));
